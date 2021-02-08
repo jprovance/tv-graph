@@ -15,7 +15,7 @@ import { ForceGraph2D } from 'react-force-graph';
 
 function App() {
   const rootURL = 'https://api.themoviedb.org/3/';
-  const apiKeyParam = '?api_key=4e70caad542a6c94947783a4eb0950e8';
+  const apiKeyParam = '?api_key={{}}';
   const creditsEndPoint = {
     tv: 'aggregate_credits',
     movie: 'credits',
