@@ -90,7 +90,7 @@ function App() {
     await addLinksFromNode(graph, graph.nodes[0]);
 
     const totalCrew = graph.nodes.length;
-    setTotalCount(totalCrew-1);
+    setTotalCount(totalCrew - 1);
     // Add one-hop connections
     for (let i = 1; i < totalCrew; i++) {
       await addLinksFromNode(graph, graph.nodes[i]);
@@ -140,21 +140,26 @@ function App() {
     <Container fluid>
       <Row>
         <Col><h1 className="header">Television and Movie Graph</h1></Col>
-        <Col><p>View source code on <a href='https://github.com/jprovance/tv-graph'>Github</a></p></Col>
+        <Col><h3>Use the search menu on the left to find the connections between shows and movies</h3></Col>
         <Col lg={1}><img src='https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg'></img></Col>
         <Col lg={2}><p fontSize={2}>This product uses the TMDb API but is not endorsed or certified by TMDb.</p></Col>
       </Row>
       <Row>
         <Col><div>
+          <p>After searching for a show, movie, or person, a graph will load to the right with the shows and movies that the cast/crew of your search also worked on.</p>
+          <p>First, select the category you want to search. The results will include TV, movies, and people, but you can only search within one category.</p>
           <ToggleButtonGroup type='radio' name='search-select' defaultValue='tv'>
             <ToggleButton onClick={() => setSearch('tv')} value='tv'>Television</ToggleButton>
             <ToggleButton onClick={() => setSearch('movie')} value='movie'>Movies</ToggleButton>
             <ToggleButton onClick={() => setSearch('person')} value='person'>People</ToggleButton>
           </ToggleButtonGroup>
+          <p>Next, select what roles to include.</p>
+          <ToggleButton type="checkbox" variant="secondary" checked={includeCast} onChange={(e) => setIncludeCast(e.currentTarget.checked)}>Include Cast</ToggleButton>
+          <ToggleButton type="checkbox" variant="secondary" checked={includeCrew} onChange={(e) => setIncludeCrew(e.currentTarget.checked)}>Include Crew</ToggleButton>
+          <p>Finally, search for a title in the box below and then click on the item to load the graph. To load a new graph, search for a new title or person.</p>
           <AsyncSelect cacheOptions loadOptions={promiseOptions} onChange={opt => renderGraph(opt)} />
-          <ToggleButton type="checkbox" checked={includeCast} onChange={(e) => setIncludeCast(e.currentTarget.checked)}>Include Cast</ToggleButton>
-          <ToggleButton type="checkbox" checked={includeCrew} onChange={(e) => setIncludeCrew(e.currentTarget.checked)}>Include Crew</ToggleButton>
           <h2>Loaded {currentCount} of {totalCount}</h2>
+          <p>View source code on <a href='https://github.com/jprovance/tv-graph'>Github</a></p>
         </div></Col>
         <Col lg={10}><div id='graph'></div></Col>
       </Row>
