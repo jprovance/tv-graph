@@ -140,7 +140,7 @@ function App() {
     <Container fluid>
       <Row>
         <Col><h1 className="header">Television and Movie Graph</h1></Col>
-        <Col></Col>
+        <Col><p>View source code on <a href='https://github.com/jprovance/tv-graph'>Github</a></p></Col>
         <Col lg={1}><img src='https://www.themoviedb.org/assets/2/v4/logos/v2/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg'></img></Col>
         <Col lg={2}><p fontSize={2}>This product uses the TMDb API but is not endorsed or certified by TMDb.</p></Col>
       </Row>
