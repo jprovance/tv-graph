@@ -1,5 +1,7 @@
 # TV and Movie Graph App
 
+Try it out at https://jack.provance.us/tv-graph
+
 This is a fist attempt at a React app. It uses [theMovieDB.org](theMovieDB.org) API for data and then renders a [react-force-graph](https://vasturiano.github.io/react-force-graph/) with the results.
 
 To build this locally, I use yarn. The packages used are react-bootstrap, react-select, and react-force-graph.
