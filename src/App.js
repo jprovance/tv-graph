@@ -11,7 +11,8 @@ import ReactDOM from 'react-dom';
 
 import AsyncSelect from 'react-select/async';
 
-import { ForceGraph2D } from 'react-force-graph';
+import { ForceGraph3D } from 'react-force-graph';
+import SpriteText from 'three-spritetext';
 
 function App() {
   const rootURL = 'https://api.themoviedb.org/3/';
@@ -101,7 +102,7 @@ function App() {
 
   function renderGraph(opt) {
     buildGraph(opt).then(graph => {
-      ReactDOM.render(<ForceGraph2D
+      ReactDOM.render(<ForceGraph3D
         graphData={graph}
         nodeAutoColorBy="type"
         onNodeDragEnd={node => {
@@ -109,27 +110,11 @@ function App() {
           node.fy = node.y;
           node.fz = node.z;
         }}
-        nodeCanvasObject={(node, ctx, globalScale) => {
-          const label = node.name;
-          const fontSize = 12 / globalScale;
-          ctx.font = `${fontSize}px Sans-Serif`;
-          const textWidth = ctx.measureText(label).width;
-          const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
-
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-          ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
-
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillStyle = node.color;
-          ctx.fillText(label, node.x, node.y);
-
-          node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
-        }}
-        nodePointerAreaPaint={(node, color, ctx) => {
-          ctx.fillStyle = color;
-          const bckgDimensions = node.__bckgDimensions;
-          bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+        nodeThreeObject={node => {
+          const sprite = new SpriteText(node.name);
+          sprite.color = node.color;
+          sprite.textHeight = 8;
+          return sprite;
         }}
       />,
         document.getElementById('graph'));
@@ -159,7 +144,7 @@ function App() {
           <p>Finally, search for a title in the box below and then click on the item to load the graph. To load a new graph, search for a new title or person.</p>
           <AsyncSelect cacheOptions loadOptions={promiseOptions} onChange={opt => renderGraph(opt)} />
           <h2>Loaded {currentCount} of {totalCount}</h2>
-          <p>View source code on <a href='https://github.com/jprovance/tv-graph'>Github</a></p>
+          <p>Left-click to rotate, right-click to pan, scroll to zoom. View source code on <a href='https://github.com/jprovance/tv-graph'>Github</a></p>
         </div></Col>
         <Col lg={10}><div id='graph'></div></Col>
       </Row>
